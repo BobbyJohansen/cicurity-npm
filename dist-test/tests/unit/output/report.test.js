@@ -79,7 +79,7 @@ describe('buildReport', () => {
             score: { total: 45, criticalCount: 1, highCount: 0, mediumCount: 0, lowCount: 0 },
         });
         const report = buildReport([result], new Map(), 'p');
-        assert.equal(report.packages[0]?.recommendation, 'Block installation — score 45/100 with 1 critical and 0 high finding(s).');
+        assert.equal(report.packages[0]?.recommendation, 'Block installation (score 45/100 with 1 critical and 0 high finding(s)).');
     });
     it('warn recommendation text is correct', () => {
         const result = makeResult({
@@ -87,7 +87,7 @@ describe('buildReport', () => {
             score: { total: 30, criticalCount: 0, highCount: 2, mediumCount: 1, lowCount: 0 },
         });
         const report = buildReport([result], new Map(), 'p');
-        assert.equal(report.packages[0]?.recommendation, 'Review before installing — score 30/100 with 2 high and 1 medium finding(s).');
+        assert.equal(report.packages[0]?.recommendation, 'Review before installing (score 30/100 with 2 high and 1 medium finding(s)).');
     });
     it('clean recommendation text is correct', () => {
         const result = makeResult({ action: 'allow' });

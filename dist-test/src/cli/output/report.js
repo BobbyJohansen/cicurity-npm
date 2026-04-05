@@ -13,10 +13,10 @@ function toState(action) {
 function buildRecommendation(result) {
     const { action, score } = result;
     if (action === 'block') {
-        return `Block installation — score ${score.total}/100 with ${score.criticalCount} critical and ${score.highCount} high finding(s).`;
+        return `Block installation (score ${score.total}/100 with ${score.criticalCount} critical and ${score.highCount} high finding(s)).`;
     }
     if (action === 'warn') {
-        return `Review before installing — score ${score.total}/100 with ${score.highCount} high and ${score.mediumCount} medium finding(s).`;
+        return `Review before installing (score ${score.total}/100 with ${score.highCount} high and ${score.mediumCount} medium finding(s)).`;
     }
     return 'No issues detected.';
 }

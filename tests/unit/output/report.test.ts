@@ -93,7 +93,7 @@ describe('buildReport', () => {
     const report = buildReport([result], new Map(), 'p');
     assert.equal(
       report.packages[0]?.recommendation,
-      'Block installation — score 45/100 with 1 critical and 0 high finding(s).',
+      'Block installation (score 45/100 with 1 critical and 0 high finding(s)).',
     );
   });
 
@@ -105,7 +105,7 @@ describe('buildReport', () => {
     const report = buildReport([result], new Map(), 'p');
     assert.equal(
       report.packages[0]?.recommendation,
-      'Review before installing — score 30/100 with 2 high and 1 medium finding(s).',
+      'Review before installing (score 30/100 with 2 high and 1 medium finding(s)).',
     );
   });
 
