@@ -1,0 +1,48 @@
+{
+  "name": "cicurity",
+  "version": "0.1.0",
+  "description": "Supply chain attack prevention for npm, pnpm, and npx — quarantines and analyzes packages before installation",
+  "type": "module",
+  "engines": {
+    "node": ">=20.0.0"
+  },
+  "bin": {
+    "cicurity": "./bin/cicurity.js"
+  },
+  "exports": {
+    ".": {
+      "import": "./dist/index.js",
+      "types": "./dist/index.d.ts"
+    }
+  },
+  "files": [
+    "bin",
+    "dist",
+    "data"
+  ],
+  "scripts": {
+    "build": "tsc && cp -r src/vendor dist/vendor",
+    "build:watch": "tsc --watch",
+    "test": "npx tsc --project tsconfig.test.json && cp -r src/vendor dist-test/src/vendor && node --test dist-test/tests/unit/analysis/scoring.test.js dist-test/tests/unit/analysis/typosquat.test.js dist-test/tests/unit/analysis/network-calls.test.js dist-test/tests/unit/analysis/obfuscation.test.js dist-test/tests/unit/internal/args.test.js",
+    "lint:no-deps": "node -e \"const p = JSON.parse(require('fs').readFileSync('package.json','utf8')); const d = Object.keys(p.dependencies||{}); if(d.length) { console.error('FAIL: runtime dependencies found:', d.join(', ')); process.exit(1); } else { console.log('OK: zero runtime dependencies'); }\"",
+    "check": "tsc --noEmit"
+  },
+  "devDependencies": {
+    "@types/node": "^25.5.2",
+    "typescript": "^5.8.0"
+  },
+  "keywords": [
+    "npm",
+    "security",
+    "supply-chain",
+    "malware",
+    "audit",
+    "proxy",
+    "quarantine"
+  ],
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/bobbyjohansen/cicurity-npm.git"
+  }
+}

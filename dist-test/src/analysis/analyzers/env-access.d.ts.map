@@ -1,0 +1,1 @@
+{"version":3,"file":"env-access.d.ts","sourceRoot":"","sources":["../../../../src/analysis/analyzers/env-access.ts"],"names":[],"mappings":"AAIA,OAAO,KAAK,EAAE,eAAe,EAAE,OAAO,EAAE,MAAM,aAAa,CAAC;AAe5D,wBAAgB,gBAAgB,CAAC,OAAO,EAAE,eAAe,GAAG,OAAO,EAAE,CAsFpE"}

@@ -1,0 +1,1 @@
+{"version":3,"file":"network-calls.d.ts","sourceRoot":"","sources":["../../../../src/analysis/analyzers/network-calls.ts"],"names":[],"mappings":"AAGA,OAAO,KAAK,EAAE,eAAe,EAAE,OAAO,EAAE,MAAM,aAAa,CAAC;AAc5D,wBAAgB,mBAAmB,CAAC,OAAO,EAAE,eAAe,GAAG,OAAO,EAAE,CAuEvE"}
