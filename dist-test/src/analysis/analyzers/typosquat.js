@@ -65,7 +65,31 @@ export function analyzeTyposquat(context) {
             // Report the closest match only - avoid flooding findings
             break;
         }
+        // Scope hijacking: unscoped package matching a scoped popular package's bare name
+        // e.g. installing 'babel-core' when '@babel/core' is the canonical package
+        if (popular.startsWith('@') && !name.startsWith('@') && popularBareName.length > 0) {
+            const scopeHijackDist = levenshtein(normalizeSeparators(name.toLowerCase()), normalizeSeparators(popularBareName.toLowerCase()));
+            if (scopeHijackDist === 0 || scopeHijackDist === 1) {
+                findings.push({
+                    category: 'typosquatting',
+                    level: 'high',
+                    title: `Possible scope hijacking: '${name}' vs scoped '${popular}'`,
+                    description: `'${name}' (unscoped) closely matches '${popular}' (scoped). ` +
+                        'Scope hijacking publishes an unscoped package with the same or similar name as a popular ' +
+                        'scoped package, intercepting installs when developers omit the scope prefix.',
+                    evidence: `${name} vs ${popular}`,
+                });
+                break;
+            }
+        }
     }
     return findings;
+}
+/**
+ * Normalizes separator characters (-, _, .) to a single form for comparison.
+ * Catches 'babel-core' vs 'babel_core' vs 'babelcore' attacks.
+ */
+function normalizeSeparators(s) {
+    return s.replace(/[-_.]/g, '-');
 }
 //# sourceMappingURL=typosquat.js.map

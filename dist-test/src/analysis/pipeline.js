@@ -12,6 +12,12 @@ import { analyzeTyposquat } from './analyzers/typosquat.js';
 import { analyzeMaintainerChanges } from './analyzers/maintainer.js';
 import { analyzePackageAge } from './analyzers/package-age.js';
 import { analyzeChildProcess } from './analyzers/child-process.js';
+import { analyzeFilesystem } from './analyzers/filesystem.js';
+import { analyzeConditionalExec } from './analyzers/conditional-exec.js';
+import { analyzeRemoteExec } from './analyzers/remote-exec.js';
+import { analyzePublishAnomaly } from './analyzers/publish-anomaly.js';
+import { analyzeMetadataIntegrity } from './analyzers/metadata-integrity.js';
+import { analyzeDepConfusion } from './analyzers/dep-confusion.js';
 import { scoreFindings, applyEnvironmentOverride } from './scoring.js';
 /**
  * Runs the full analysis pipeline for a resolved package.
@@ -44,7 +50,7 @@ export async function analyzePackage(resolved, options = {}) {
             packument,
         };
         // Step 4: Run all analyzers in parallel
-        const [networkFindings, obfuscationFindings, envFindings, binaryFindings, typosquatFindings, maintainerFindings, ageFindings, childProcessFindings,] = await Promise.all([
+        const [networkFindings, obfuscationFindings, envFindings, binaryFindings, typosquatFindings, maintainerFindings, ageFindings, childProcessFindings, filesystemFindings, conditionalExecFindings, remoteExecFindings, publishAnomalyFindings, metadataIntegrityFindings, depConfusionFindings,] = await Promise.all([
             Promise.resolve(analyzeNetworkCalls(context)),
             Promise.resolve(analyzeObfuscation(context)),
             Promise.resolve(analyzeEnvAccess(context)),
@@ -53,6 +59,12 @@ export async function analyzePackage(resolved, options = {}) {
             Promise.resolve(analyzeMaintainerChanges(context)),
             analyzePackageAge(context),
             Promise.resolve(analyzeChildProcess(context)),
+            Promise.resolve(analyzeFilesystem(context)),
+            Promise.resolve(analyzeConditionalExec(context)),
+            Promise.resolve(analyzeRemoteExec(context)),
+            Promise.resolve(analyzePublishAnomaly(context)),
+            Promise.resolve(analyzeMetadataIntegrity(context)),
+            Promise.resolve(analyzeDepConfusion(context)),
         ]);
         const allFindings = [
             ...networkFindings,
@@ -63,6 +75,12 @@ export async function analyzePackage(resolved, options = {}) {
             ...maintainerFindings,
             ...ageFindings,
             ...childProcessFindings,
+            ...filesystemFindings,
+            ...conditionalExecFindings,
+            ...remoteExecFindings,
+            ...publishAnomalyFindings,
+            ...metadataIntegrityFindings,
+            ...depConfusionFindings,
         ];
         // Step 5: Score and apply environment override
         const { score, action: rawAction } = scoreFindings(allFindings);
