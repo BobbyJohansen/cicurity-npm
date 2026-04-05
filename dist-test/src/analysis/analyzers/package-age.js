@@ -12,7 +12,7 @@ export async function analyzePackageAge(context) {
     const ageDays = ageMs / (1000 * 60 * 60 * 24);
     if (ageDays > NEW_PACKAGE_THRESHOLD_DAYS)
         return findings;
-    // Package is new — fetch last-month download count
+    // Package is new - fetch last-month download count
     const downloads = await fetchDownloadCount(packageName);
     if (downloads !== null && downloads < LOW_DOWNLOAD_THRESHOLD) {
         findings.push({
@@ -25,7 +25,7 @@ export async function analyzePackageAge(context) {
         });
     }
     else if (downloads === null && ageDays < NEW_PACKAGE_THRESHOLD_DAYS) {
-        // Could not fetch downloads — still flag the age
+        // Could not fetch downloads - still flag the age
         findings.push({
             category: 'package-age',
             level: 'low',

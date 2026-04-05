@@ -1,7 +1,7 @@
 // Shared AST parsing and traversal utilities.
 // Uses the vendored acorn parser.
 
-// @ts-ignore — vendored ESM module
+// @ts-ignore - vendored ESM module
 import * as acorn from '../vendor/acorn/acorn.mjs';
 
 export interface AcornNode {
@@ -60,7 +60,7 @@ export function parseScript(source: string, filePath?: string): ParseResult | nu
     try {
       return acorn.parse(source, { ...parseOptions, sourceType: 'script' as const }) as unknown as ParseResult;
     } catch {
-      // Parsing failed (obfuscated, minified, syntax error) — not parseable
+      // Parsing failed (obfuscated, minified, syntax error) - not parseable
       return null;
     }
   }

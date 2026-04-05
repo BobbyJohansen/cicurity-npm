@@ -37,7 +37,7 @@ export function analyzeChildProcess(context) {
                     line: node.loc?.start.line,
                 });
             }
-            // exec(), spawn(), execSync(), etc. — direct calls (may be destructured)
+            // exec(), spawn(), execSync(), etc. - direct calls (may be destructured)
             if (node.type === 'CallExpression' &&
                 node.callee?.type === 'Identifier' &&
                 CHILD_PROCESS_METHODS.has(node.callee.name ?? '')) {
@@ -53,7 +53,7 @@ export function analyzeChildProcess(context) {
                     line: node.loc?.start.line,
                 });
             }
-            // cp.exec(), childProcess.spawn(), etc. — member calls
+            // cp.exec(), childProcess.spawn(), etc. - member calls
             if (node.type === 'CallExpression' &&
                 node.callee?.type === 'MemberExpression' &&
                 node.callee.property?.type === 'Identifier' &&

@@ -3,7 +3,7 @@ export interface ExtractionResult {
     extractedPath: string;
     /** All extracted file paths relative to extractedPath */
     files: string[];
-    /** Cleanup function — call when analysis is done */
+    /** Cleanup function - call when analysis is done */
     cleanup: () => Promise<void>;
 }
 /**

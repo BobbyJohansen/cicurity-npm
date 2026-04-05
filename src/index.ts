@@ -1,4 +1,4 @@
-// Public API — programmatic usage of the analysis pipeline.
+// Public API - programmatic usage of the analysis pipeline.
 
 export { analyzePackage } from './analysis/pipeline.js';
 export { resolvePackage } from './registry/resolver.js';

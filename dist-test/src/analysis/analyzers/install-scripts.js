@@ -1,5 +1,5 @@
 // Finds lifecycle install hooks in package.json and resolves their JS files.
-// This is the foundation — other AST-based analyzers depend on the context it builds.
+// This is the foundation - other AST-based analyzers depend on the context it builds.
 import * as fs from 'node:fs';
 import * as path from 'node:path';
 const LIFECYCLE_HOOKS = ['preinstall', 'install', 'postinstall', 'prepare'];

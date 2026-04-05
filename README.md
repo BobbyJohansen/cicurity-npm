@@ -28,13 +28,13 @@
 
 You're careful. You use `npm audit`. You pin your dependencies. You review PRs.
 
-Then someone runs `npm install` and your CI pipeline quietly exfiltrates your `NPM_TOKEN`, `AWS_SECRET_ACCESS_KEY`, and every other secret in your environment — before your code runs, before your tests run, before any security tool can see it.
+Then someone runs `npm install` and your CI pipeline quietly exfiltrates your `NPM_TOKEN`, `AWS_SECRET_ACCESS_KEY`, and every other secret in your environment - before your code runs, before your tests run, before any security tool can see it.
 
 This is a **postinstall attack**. It runs at install time, with your full permissions, and it's [been happening for years](https://socket.dev/blog/axios-npm-package-compromised):
 
 > *"The malicious postinstall script exfiltrated environment variables to an attacker-controlled server within milliseconds of `npm install` completing."*
 
-**npm audit won't catch it.** It only checks known CVEs. A zero-day compromised package, a typosquatted package, a stolen maintainer account — all invisible to audit.
+**npm audit won't catch it.** It only checks known CVEs. A zero-day compromised package, a typosquatted package, a stolen maintainer account - all invisible to audit.
 
 `cicurity` intercepts the install, quarantines the tarball, and runs it through a static analysis engine before a single byte touches your `node_modules`.
 
@@ -99,7 +99,7 @@ cicurity npm install --save-dev typescript
 cicurity npm ci
 ```
 
-**In CI** (GitHub Actions, CircleCI, etc.), blocked packages automatically fail the build with exit code 1 — no prompts, no questions.
+**In CI** (GitHub Actions, CircleCI, etc.), blocked packages automatically fail the build with exit code 1 - no prompts, no questions.
 
 ---
 
@@ -111,12 +111,12 @@ cicurity runs a multi-layer analysis pipeline on every package before it install
 
 | Signal | Why it matters |
 |---|---|
-| Network calls in postinstall/preinstall | Primary exfiltration vector — `fetch()`, `https.get()`, `axios`, etc. |
+| Network calls in postinstall/preinstall | Primary exfiltration vector - `fetch()`, `https.get()`, `axios`, etc. |
 | `eval()` / `new Function()` in install scripts | Executing hidden payloads at install time |
 | `eval(Buffer.from(x, 'base64'))` | The canonical obfuscation pattern in real-world attacks |
 | `process.env` access in install scripts | How CI tokens, AWS keys, and npm auth get stolen |
 | `child_process.exec/spawn` in install scripts | Arbitrary shell command execution |
-| Integrity mismatch | Downloaded tarball doesn't match registry hash — possible MITM |
+| Integrity mismatch | Downloaded tarball doesn't match registry hash - possible MITM |
 
 ### 🟡 Flagged for review
 
@@ -137,7 +137,7 @@ Here's the thing about a supply chain security tool: it can't have a supply chai
 "dependencies": {}
 ```
 
-Every other security tool in this space — linters, scanners, proxies — ships with hundreds of transitive dependencies, each one a potential attack vector. cicurity ships with **zero**. Everything needed at runtime is either a Node.js built-in or vendored directly into the repository:
+Every other security tool in this space - linters, scanners, proxies - ships with hundreds of transitive dependencies, each one a potential attack vector. cicurity ships with **zero**. Everything needed at runtime is either a Node.js built-in or vendored directly into the repository:
 
 - **AST parsing** → vendored [acorn](https://github.com/acornjs/acorn) (MIT, zero deps, the parser used inside Node.js itself)
 - **Tarball extraction** → custom implementation using `node:zlib` + tar header spec
@@ -286,7 +286,7 @@ if (result.action === 'block') {
 
 Set `"registry": "https://your-registry.example.com"` in `cicurity.config.json`. cicurity will proxy all requests through your configured registry.
 
-**I have a false positive — a legitimate package is being blocked.**
+**I have a false positive - a legitimate package is being blocked.**
 
 Add it to your `allowlist`. If you believe it's a genuine false positive that should be tuned, [open an issue](https://github.com/bobbyjohansen/cicurity-npm/issues).
 

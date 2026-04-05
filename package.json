@@ -1,7 +1,7 @@
 {
   "name": "cicurity",
   "version": "0.1.0",
-  "description": "Supply chain attack prevention for npm, pnpm, and npx — quarantines and analyzes packages before installation",
+  "description": "Supply chain attack prevention for npm, pnpm, and npx - quarantines and analyzes packages before installation",
   "type": "module",
   "engines": {
     "node": ">=20.0.0"

@@ -45,7 +45,7 @@ export function analyzeEnvAccess(context) {
                         line: node.loc?.start.line,
                     });
                 }
-                // process.env['NPM_TOKEN'] or process.env.NPM_TOKEN — check for high-value targets
+                // process.env['NPM_TOKEN'] or process.env.NPM_TOKEN - check for high-value targets
                 const parent = getParentPropertyName(node);
                 if (parent && HIGH_VALUE_ENV_VARS.has(parent)) {
                     findings.push({
@@ -60,7 +60,7 @@ export function analyzeEnvAccess(context) {
                     });
                 }
             }
-            // process.env['KEY'] — computed member access
+            // process.env['KEY'] - computed member access
             if (node.type === 'MemberExpression' &&
                 node.computed &&
                 node.object?.type === 'MemberExpression' &&
@@ -90,9 +90,9 @@ export function analyzeEnvAccess(context) {
 }
 /** If the MemberExpression is a child of another MemberExpression, return that property name */
 function getParentPropertyName(node) {
-    // This is set by the caller when walking — we infer it from the node structure
+    // This is set by the caller when walking - we infer it from the node structure
     // process.env.FOO → the parent MemberExpression has property 'FOO'
-    // We check via the raw source — this is handled by the computed check above
+    // We check via the raw source - this is handled by the computed check above
     return null;
 }
 function sliceSource(source, node) {

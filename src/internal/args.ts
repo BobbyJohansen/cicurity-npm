@@ -1,4 +1,4 @@
-// CLI argument parser — no commander dependency.
+// CLI argument parser - no commander dependency.
 // Handles all cicurity invocation styles.
 
 export type SupportedTool = 'npm' | 'pnpm' | 'npx';
@@ -69,7 +69,7 @@ export function parseArgs(argv: string[]): ParsedCommand {
     tool = first;
     rest = argv.slice(1);
   } else if (first === 'install' || first === 'i' || first === 'add') {
-    // `cicurity install <pkg>` — shorthand, defaults to npm
+    // `cicurity install <pkg>` - shorthand, defaults to npm
     tool = 'npm';
     rest = argv; // keep the subcommand in rest
   } else {
@@ -108,7 +108,7 @@ export function parseArgs(argv: string[]): ParsedCommand {
       continue;
     }
     if (!doubleDashSeen && arg.startsWith('-')) {
-      // Unknown flag — pass through but don't treat as a package name
+      // Unknown flag - pass through but don't treat as a package name
       passthroughArgs.push(arg);
       continue;
     }

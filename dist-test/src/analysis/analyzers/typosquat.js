@@ -14,7 +14,7 @@ function loadTop500() {
         return cachedTop500;
     }
     catch {
-        // Data file missing — skip typosquat check gracefully
+        // Data file missing - skip typosquat check gracefully
         return [];
     }
 }
@@ -48,7 +48,7 @@ export function analyzeTyposquat(context) {
     const bareName = name.startsWith('@') ? (name.split('/')[1] ?? name) : name;
     for (const popular of top500) {
         if (name === popular)
-            return []; // Exact match to a popular package — not a typosquat
+            return []; // Exact match to a popular package - not a typosquat
         const popularBareName = popular.startsWith('@')
             ? (popular.split('/')[1] ?? popular)
             : popular;
@@ -62,7 +62,7 @@ export function analyzeTyposquat(context) {
                     'This may be a typosquatting attack designed to be installed by accident.',
                 evidence: `${name} vs ${popular}`,
             });
-            // Report the closest match only — avoid flooding findings
+            // Report the closest match only - avoid flooding findings
             break;
         }
     }

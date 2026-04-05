@@ -4,9 +4,9 @@ import type { Finding, RiskScore, Action } from './types.js';
  *
  * Score is capped at 100.
  * Action thresholds:
- *   block — score ≥ 40 OR any critical finding
- *   warn  — score ≥ 10 OR any high finding
- *   allow — everything else
+ *   block - score ≥ 40 OR any critical finding
+ *   warn  - score ≥ 10 OR any high finding
+ *   allow - everything else
  */
 export declare function scoreFindings(findings: Finding[]): {
     score: RiskScore;

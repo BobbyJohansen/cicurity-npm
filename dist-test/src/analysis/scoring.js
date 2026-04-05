@@ -1,5 +1,5 @@
 // Aggregates analysis findings into a risk score and action decision.
-// Pure function — no side effects.
+// Pure function - no side effects.
 const LEVEL_POINTS = {
     critical: 40,
     high: 15,
@@ -12,9 +12,9 @@ const LEVEL_POINTS = {
  *
  * Score is capped at 100.
  * Action thresholds:
- *   block — score ≥ 40 OR any critical finding
- *   warn  — score ≥ 10 OR any high finding
- *   allow — everything else
+ *   block - score ≥ 40 OR any critical finding
+ *   warn  - score ≥ 10 OR any high finding
+ *   allow - everything else
  */
 export function scoreFindings(findings) {
     const counts = { critical: 0, high: 0, medium: 0, low: 0, info: 0 };

@@ -104,7 +104,7 @@ export async function runInstall(parsed: ParsedInstall): Promise<void> {
     }
   }
 
-  // All clear — run the original tool
+  // All clear - run the original tool
   runOriginalTool(parsed);
 }
 

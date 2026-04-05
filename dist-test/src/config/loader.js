@@ -23,7 +23,7 @@ export async function loadConfig(cwd = process.cwd()) {
             return { config, configPath: candidate, errors };
         }
         catch {
-            // Not found or unreadable — try next
+            // Not found or unreadable - try next
         }
     }
     return { config: defaultConfig(), configPath: null, errors: [] };

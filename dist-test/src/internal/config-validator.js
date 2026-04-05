@@ -1,4 +1,4 @@
-// Manual cicurity.config.json validator — no zod dependency.
+// Manual cicurity.config.json validator - no zod dependency.
 function isString(v) {
     return typeof v === 'string';
 }

@@ -1,5 +1,5 @@
 // ANSI terminal color/style helpers and inline spinner.
-// No dependencies — raw escape codes only.
+// No dependencies - raw escape codes only.
 const ESC = '\x1b[';
 export const ansi = {
     reset: `${ESC}0m`,

@@ -48,7 +48,7 @@ export function analyzeChildProcess(context: AnalysisContext): Finding[] {
         });
       }
 
-      // exec(), spawn(), execSync(), etc. — direct calls (may be destructured)
+      // exec(), spawn(), execSync(), etc. - direct calls (may be destructured)
       if (
         node.type === 'CallExpression' &&
         node.callee?.type === 'Identifier' &&
@@ -68,7 +68,7 @@ export function analyzeChildProcess(context: AnalysisContext): Finding[] {
         });
       }
 
-      // cp.exec(), childProcess.spawn(), etc. — member calls
+      // cp.exec(), childProcess.spawn(), etc. - member calls
       if (
         node.type === 'CallExpression' &&
         node.callee?.type === 'MemberExpression' &&

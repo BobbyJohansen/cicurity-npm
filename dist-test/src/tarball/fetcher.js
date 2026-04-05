@@ -9,7 +9,7 @@ export class IntegrityError extends Error {
     packageName;
     version;
     constructor(packageName, version) {
-        super(`Integrity check failed for ${packageName}@${version} — ` +
+        super(`Integrity check failed for ${packageName}@${version} - ` +
             'the downloaded tarball does not match the registry hash. ' +
             'This may indicate a compromised registry response or MITM attack.');
         this.packageName = packageName;

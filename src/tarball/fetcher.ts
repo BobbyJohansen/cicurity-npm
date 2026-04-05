@@ -10,7 +10,7 @@ import { cachePathForIntegrity, isCached, verifyIntegrity, cacheFile } from './c
 export class IntegrityError extends Error {
   constructor(public readonly packageName: string, public readonly version: string) {
     super(
-      `Integrity check failed for ${packageName}@${version} — ` +
+      `Integrity check failed for ${packageName}@${version} - ` +
       'the downloaded tarball does not match the registry hash. ' +
       'This may indicate a compromised registry response or MITM attack.'
     );

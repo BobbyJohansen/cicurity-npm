@@ -1,4 +1,4 @@
-// npm registry API types — based on the public packument format.
+// npm registry API types - based on the public packument format.
 
 export interface NpmPerson {
   name: string;

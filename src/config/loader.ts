@@ -39,7 +39,7 @@ export async function loadConfig(cwd: string = process.cwd()): Promise<LoadConfi
       const { config, errors } = validateConfig(parsed);
       return { config, configPath: candidate, errors };
     } catch {
-      // Not found or unreadable — try next
+      // Not found or unreadable - try next
     }
   }
 

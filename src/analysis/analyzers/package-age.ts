@@ -18,7 +18,7 @@ export async function analyzePackageAge(context: AnalysisContext): Promise<Findi
 
   if (ageDays > NEW_PACKAGE_THRESHOLD_DAYS) return findings;
 
-  // Package is new — fetch last-month download count
+  // Package is new - fetch last-month download count
   const downloads = await fetchDownloadCount(packageName);
 
   if (downloads !== null && downloads < LOW_DOWNLOAD_THRESHOLD) {
@@ -32,7 +32,7 @@ export async function analyzePackageAge(context: AnalysisContext): Promise<Findi
       evidence: `Age: ${Math.round(ageDays)} days | Last-month downloads: ${downloads}`,
     });
   } else if (downloads === null && ageDays < NEW_PACKAGE_THRESHOLD_DAYS) {
-    // Could not fetch downloads — still flag the age
+    // Could not fetch downloads - still flag the age
     findings.push({
       category: 'package-age',
       level: 'low',

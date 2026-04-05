@@ -80,7 +80,7 @@ export async function runInstall(parsed) {
             process.exit(1);
         }
     }
-    // All clear — run the original tool
+    // All clear - run the original tool
     runOriginalTool(parsed);
 }
 /** Runs the original npm/pnpm/npx command, inheriting stdio and mirroring exit code */

@@ -1,10 +1,10 @@
-// CLI entry point — parses arguments and dispatches to commands.
+// CLI entry point - parses arguments and dispatches to commands.
 import { parseArgs } from '../internal/args.js';
 import { runInstall } from './commands/install.js';
 import { ansi, colorize } from '../internal/ansi.js';
 const VERSION = '0.1.0';
 const USAGE = `
-${colorize(ansi.bold, 'cicurity')} — npm supply chain attack prevention
+${colorize(ansi.bold, 'cicurity')} - npm supply chain attack prevention
 
 ${colorize(ansi.bold, 'Usage:')}
   cicurity install <pkg...>
@@ -40,7 +40,7 @@ async function main() {
     const parsed = parseArgs(argv);
     if (parsed.command === 'unknown') {
         // Pass through unknown commands directly to the underlying tool
-        // e.g. `cicurity npm audit` — we don't intercept non-install commands
+        // e.g. `cicurity npm audit` - we don't intercept non-install commands
         const tool = argv[0];
         if (tool === 'npm' || tool === 'pnpm' || tool === 'npx') {
             const { spawnSync } = await import('node:child_process');

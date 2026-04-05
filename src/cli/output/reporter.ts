@@ -1,4 +1,4 @@
-// Terminal reporter — formats analysis results for human-readable output.
+// Terminal reporter - formats analysis results for human-readable output.
 
 import { ansi, colorize, supportsColor } from '../../internal/ansi.js';
 import type { PackageAnalysisResult } from '../../analysis/types.js';
@@ -73,7 +73,7 @@ export function printReport(results: PackageAnalysisResult[]): void {
     }
   } else if (warned.length > 0) {
     process.stdout.write(
-      colorize(ansi.yellowBold, `⚠ ${warned.length} package(s) have warnings — review before proceeding.\n`)
+      colorize(ansi.yellowBold, `⚠ ${warned.length} package(s) have warnings - review before proceeding.\n`)
     );
   } else {
     process.stdout.write(colorize(ansi.greenBold, '✓ All packages passed security analysis.\n'));

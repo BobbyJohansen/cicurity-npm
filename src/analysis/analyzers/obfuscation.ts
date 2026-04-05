@@ -53,14 +53,14 @@ export function analyzeObfuscation(context: AnalysisContext): Finding[] {
             category: 'install-script-eval',
             level: 'critical',
             title: 'new Function() in install script',
-            description: `The ${script.lifecycle} script uses \`new Function()\` to execute dynamic code — equivalent to eval().`,
+            description: `The ${script.lifecycle} script uses \`new Function()\` to execute dynamic code - equivalent to eval().`,
             evidence: sliceSource(src, node).slice(0, 200),
             file: fileRef,
             line: node.loc?.start.line,
           });
         }
 
-        // Buffer.from(x, 'base64') — potential payload decoding
+        // Buffer.from(x, 'base64') - potential payload decoding
         if (isBufferFromBase64(node)) {
           findings.push({
             category: 'install-script-obfuscation',
@@ -73,7 +73,7 @@ export function analyzeObfuscation(context: AnalysisContext): Finding[] {
           });
         }
 
-        // atob() or btoa() — another base64 path
+        // atob() or btoa() - another base64 path
         if (
           node.type === 'CallExpression' &&
           node.callee?.type === 'Identifier' &&
@@ -90,7 +90,7 @@ export function analyzeObfuscation(context: AnalysisContext): Finding[] {
           });
         }
 
-        // vm.runInNewContext / vm.runInThisContext — dynamic code execution
+        // vm.runInNewContext / vm.runInThisContext - dynamic code execution
         if (isVmRunCall(node)) {
           findings.push({
             category: 'install-script-eval',
@@ -104,7 +104,7 @@ export function analyzeObfuscation(context: AnalysisContext): Finding[] {
         }
       });
     } else {
-      // AST parse failed — code may be intentionally obfuscated
+      // AST parse failed - code may be intentionally obfuscated
       findings.push({
         category: 'install-script-obfuscation',
         level: 'high',

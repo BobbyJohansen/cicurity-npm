@@ -33,7 +33,7 @@ export function parseSpecifier(specifier) {
 /**
  * Very lightweight semver range matching.
  * Supports: exact versions, "latest"/"next"/any dist-tag, "^X", "~X", ">=X", "*".
- * For complex ranges, falls back to exact-match only (safe — will reject rather
+ * For complex ranges, falls back to exact-match only (safe - will reject rather
  * than incorrectly allow a bad version).
  */
 function matchesRange(version, range, distTags) {

@@ -1,4 +1,4 @@
-// npm registry HTTP client — uses Node 20 built-in fetch, zero dependencies.
+// npm registry HTTP client - uses Node 20 built-in fetch, zero dependencies.
 
 import type { Packument, VersionMetadata } from './types.js';
 
@@ -17,7 +17,7 @@ const DEFAULT_REGISTRY = 'https://registry.npmjs.org';
 const MAX_RETRIES = 3;
 const RETRY_BASE_MS = 500;
 
-/** In-process packument cache — avoids duplicate fetches within one cicurity run */
+/** In-process packument cache - avoids duplicate fetches within one cicurity run */
 const packumentCache = new Map<string, Packument>();
 
 export interface RegistryClientOptions {

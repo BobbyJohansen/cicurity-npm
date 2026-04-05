@@ -1,4 +1,4 @@
-// npm registry HTTP client — uses Node 20 built-in fetch, zero dependencies.
+// npm registry HTTP client - uses Node 20 built-in fetch, zero dependencies.
 export class RegistryError extends Error {
     statusCode;
     packageName;
@@ -12,7 +12,7 @@ export class RegistryError extends Error {
 const DEFAULT_REGISTRY = 'https://registry.npmjs.org';
 const MAX_RETRIES = 3;
 const RETRY_BASE_MS = 500;
-/** In-process packument cache — avoids duplicate fetches within one cicurity run */
+/** In-process packument cache - avoids duplicate fetches within one cicurity run */
 const packumentCache = new Map();
 async function fetchWithRetry(url, timeoutMs) {
     let lastError;

@@ -1,4 +1,4 @@
-// Manual cicurity.config.json validator — no zod dependency.
+// Manual cicurity.config.json validator - no zod dependency.
 
 export type RiskLevelName = 'critical' | 'high' | 'medium' | 'low';
 export type WarnAction = 'block' | 'warn' | 'allow';

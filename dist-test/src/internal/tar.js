@@ -1,9 +1,9 @@
 // Tarball extractor using node:zlib (gunzip) + manual tar header parsing.
-// No external dependencies — the tar format is a fixed 512-byte header spec.
+// No external dependencies - the tar format is a fixed 512-byte header spec.
 //
 // Supports: gzipped tarballs (.tgz / .tar.gz), standard POSIX tar headers,
 // GNU longname/longlink extensions (type '1'/'2' handled as skips),
-// POSIX pax extended headers (type 'x'/'g' ignored — name falls back to header).
+// POSIX pax extended headers (type 'x'/'g' ignored - name falls back to header).
 //
 // Does NOT support: POSIX ACL extensions, sparse files, hard links.
 // These are not used by npm package tarballs.
@@ -70,19 +70,19 @@ export async function extractTarball(tgzPath, destDir) {
                     const dataBlock = data.subarray(offset, offset + dataSize);
                     offset += paddedSize(dataSize);
                     const typeflag = header.typeflag;
-                    // pax extended header — extract name override, then skip data
+                    // pax extended header - extract name override, then skip data
                     if (typeflag === 'x' || typeflag === 'X') {
                         paxName = parsePaxName(dataBlock);
                         continue;
                     }
-                    // GNU long name — read name from data, apply to next header
+                    // GNU long name - read name from data, apply to next header
                     if (typeflag === 'L') {
                         paxName = dataBlock.toString('utf8').replace(/\0/g, '').trim();
                         continue;
                     }
                     const entryName = paxName ?? header.name;
                     paxName = null;
-                    // Directory entries — just ensure the dir exists
+                    // Directory entries - just ensure the dir exists
                     if (typeflag === '5' || entryName.endsWith('/')) {
                         const dirPath = safeJoin(destDir, entryName.replace(/\/$/, ''));
                         if (dirPath !== null) {
@@ -97,7 +97,7 @@ export async function extractTarball(tgzPath, destDir) {
                     // Regular file
                     const destPath = safeJoin(destDir, entryName);
                     if (destPath === null)
-                        continue; // path traversal attempt — skip
+                        continue; // path traversal attempt - skip
                     fs.mkdirSync(path.dirname(destPath), { recursive: true });
                     fs.writeFileSync(destPath, dataBlock);
                     extracted.push(path.relative(destDir, destPath));
