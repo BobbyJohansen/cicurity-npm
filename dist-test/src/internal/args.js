@@ -57,11 +57,27 @@ export function parseArgs(argv) {
     const packages = [];
     const passthroughArgs = tool === 'npx' ? [] : [subcommand];
     const flags = { json: false, force: false, saveDev: false, saveOptional: false, global: false };
+    let project;
     let doubleDashSeen = false;
-    for (const arg of afterSubcommand) {
+    let i = 0;
+    while (i < afterSubcommand.length) {
+        const arg = afterSubcommand[i] ?? '';
         if (arg === '--') {
             doubleDashSeen = true;
             passthroughArgs.push(arg);
+            i++;
+            continue;
+        }
+        // --project <name> and -p <name>: consumed by cicurity, not passed through
+        if (!doubleDashSeen && (arg === '--project' || arg === '-p')) {
+            const val = afterSubcommand[i + 1];
+            if (val !== undefined && !val.startsWith('-')) {
+                project = val;
+                i += 2;
+            }
+            else {
+                i++;
+            }
             continue;
         }
         if (!doubleDashSeen && INSTALL_FLAGS.has(arg)) {
@@ -76,15 +92,18 @@ export function parseArgs(argv) {
                 flags.saveOptional = true;
             if (arg === '-g' || arg === '--global')
                 flags.global = true;
+            i++;
             continue;
         }
         if (!doubleDashSeen && arg.startsWith('-')) {
             // Unknown flag - pass through but don't treat as a package name
             passthroughArgs.push(arg);
+            i++;
             continue;
         }
         packages.push(arg);
         passthroughArgs.push(arg);
+        i++;
     }
     return {
         command: 'install',
@@ -92,6 +111,7 @@ export function parseArgs(argv) {
         packages,
         passthroughArgs,
         flags,
+        project,
     };
 }
 //# sourceMappingURL=args.js.map

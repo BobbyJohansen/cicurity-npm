@@ -13,6 +13,8 @@ export interface ParsedInstall {
         saveOptional: boolean;
         global: boolean;
     };
+    /** Optional project name for the analyzer report (--project / -p) */
+    project?: string;
 }
 export interface ParsedUnknown {
     command: 'unknown';

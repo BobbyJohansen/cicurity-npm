@@ -17,6 +17,8 @@ export interface ParsedInstall {
     saveOptional: boolean;
     global: boolean;
   };
+  /** Optional project name for the analyzer report (--project / -p) */
+  project?: string;
 }
 
 export interface ParsedUnknown {
@@ -90,12 +92,27 @@ export function parseArgs(argv: string[]): ParsedCommand {
   const packages: string[] = [];
   const passthroughArgs: string[] = tool === 'npx' ? [] : [subcommand];
   const flags = { json: false, force: false, saveDev: false, saveOptional: false, global: false };
+  let project: string | undefined;
 
   let doubleDashSeen = false;
-  for (const arg of afterSubcommand) {
+  let i = 0;
+  while (i < afterSubcommand.length) {
+    const arg = afterSubcommand[i] ?? '';
     if (arg === '--') {
       doubleDashSeen = true;
       passthroughArgs.push(arg);
+      i++;
+      continue;
+    }
+    // --project <name> and -p <name>: consumed by cicurity, not passed through
+    if (!doubleDashSeen && (arg === '--project' || arg === '-p')) {
+      const val = afterSubcommand[i + 1];
+      if (val !== undefined && !val.startsWith('-')) {
+        project = val;
+        i += 2;
+      } else {
+        i++;
+      }
       continue;
     }
     if (!doubleDashSeen && INSTALL_FLAGS.has(arg)) {
@@ -105,15 +122,18 @@ export function parseArgs(argv: string[]): ParsedCommand {
       if (arg === '-D' || arg === '--save-dev') flags.saveDev = true;
       if (arg === '-O' || arg === '--save-optional') flags.saveOptional = true;
       if (arg === '-g' || arg === '--global') flags.global = true;
+      i++;
       continue;
     }
     if (!doubleDashSeen && arg.startsWith('-')) {
       // Unknown flag - pass through but don't treat as a package name
       passthroughArgs.push(arg);
+      i++;
       continue;
     }
     packages.push(arg);
     passthroughArgs.push(arg);
+    i++;
   }
 
   return {
@@ -122,5 +142,6 @@ export function parseArgs(argv: string[]): ParsedCommand {
     packages,
     passthroughArgs,
     flags,
+    project,
   };
 }
