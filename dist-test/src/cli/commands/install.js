@@ -9,6 +9,7 @@ import { startSpinner, ansi, colorize } from '../../internal/ansi.js';
 import { confirm } from '../../internal/prompt.js';
 import { printPackageSummary, printReport } from '../output/reporter.js';
 import { printJsonResults, printCiSummary } from '../output/ci.js';
+import { writeAnalyzerReport, resolveProjectName } from '../output/report.js';
 export async function runInstall(parsed) {
     const { config } = await loadConfig();
     // If no packages are named explicitly, run the tool directly (e.g. bare `npm install`)
@@ -25,6 +26,7 @@ export async function runInstall(parsed) {
         process.stdout.write(`${colorize(ansi.bold, 'cicurity')} ${colorize(ansi.gray, `analyzing ${parsed.packages.length} package(s)...\n`)}`);
     }
     const results = [];
+    const resolvedPackages = new Map();
     for (const specifier of parsed.packages) {
         // Check allowlist before fetching
         const { name } = preParseSpecifier(specifier);
@@ -46,6 +48,7 @@ export async function runInstall(parsed) {
                 }
                 continue;
             }
+            resolvedPackages.set(`${resolved.name}@${resolved.version}`, resolved);
             result = await analyzePackage(resolved, { ciWarnAction: config.ci.warnAction });
         }
         catch (err) {
@@ -68,6 +71,7 @@ export async function runInstall(parsed) {
     else {
         printReport(results);
     }
+    writeAnalyzerReport(results, resolvedPackages, resolveProjectName(parsed.project));
     const blocked = results.filter((r) => r.action === 'block');
     const warned = results.filter((r) => r.action === 'warn');
     if (blocked.length > 0) {

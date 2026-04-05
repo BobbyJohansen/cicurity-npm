@@ -23,7 +23,7 @@
   "scripts": {
     "build": "tsc && cp -r src/vendor dist/vendor",
     "build:watch": "tsc --watch",
-    "test": "npx tsc --project tsconfig.test.json && cp -r src/vendor dist-test/src/vendor && node --test dist-test/tests/unit/analysis/scoring.test.js dist-test/tests/unit/analysis/typosquat.test.js dist-test/tests/unit/analysis/network-calls.test.js dist-test/tests/unit/analysis/obfuscation.test.js dist-test/tests/unit/internal/args.test.js",
+    "test": "npx tsc --project tsconfig.test.json && cp -r src/vendor dist-test/src/vendor && node --test dist-test/tests/unit/analysis/scoring.test.js dist-test/tests/unit/analysis/typosquat.test.js dist-test/tests/unit/analysis/network-calls.test.js dist-test/tests/unit/analysis/obfuscation.test.js dist-test/tests/unit/internal/args.test.js dist-test/tests/unit/output/report.test.js",
     "lint:no-deps": "node -e \"const p = JSON.parse(require('fs').readFileSync('package.json','utf8')); const d = Object.keys(p.dependencies||{}); if(d.length) { console.error('FAIL: runtime dependencies found:', d.join(', ')); process.exit(1); } else { console.log('OK: zero runtime dependencies'); }\"",
     "check": "tsc --noEmit"
   },

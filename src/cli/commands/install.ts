@@ -10,8 +10,10 @@ import { startSpinner, ansi, colorize } from '../../internal/ansi.js';
 import { confirm } from '../../internal/prompt.js';
 import { printPackageSummary, printReport } from '../output/reporter.js';
 import { printJsonResults, printCiSummary } from '../output/ci.js';
+import { writeAnalyzerReport, resolveProjectName } from '../output/report.js';
 import type { ParsedInstall } from '../../internal/args.js';
 import type { PackageAnalysisResult } from '../../analysis/types.js';
+import type { ResolvedPackage } from '../../registry/types.js';
 
 export async function runInstall(parsed: ParsedInstall): Promise<void> {
   const { config } = await loadConfig();
@@ -36,6 +38,7 @@ export async function runInstall(parsed: ParsedInstall): Promise<void> {
   }
 
   const results: PackageAnalysisResult[] = [];
+  const resolvedPackages = new Map<string, ResolvedPackage>();
 
   for (const specifier of parsed.packages) {
     // Check allowlist before fetching
@@ -62,6 +65,7 @@ export async function runInstall(parsed: ParsedInstall): Promise<void> {
         continue;
       }
 
+      resolvedPackages.set(`${resolved.name}@${resolved.version}`, resolved);
       result = await analyzePackage(resolved, { ciWarnAction: config.ci.warnAction });
     } catch (err) {
       spinner?.stop();
@@ -86,6 +90,8 @@ export async function runInstall(parsed: ParsedInstall): Promise<void> {
   } else {
     printReport(results);
   }
+
+  writeAnalyzerReport(results, resolvedPackages, resolveProjectName(parsed.project));
 
   const blocked = results.filter((r) => r.action === 'block');
   const warned = results.filter((r) => r.action === 'warn');

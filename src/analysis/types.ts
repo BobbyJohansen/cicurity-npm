@@ -78,3 +78,27 @@ export interface AnalysisContext {
   installScripts: InstallScript[];
   packument: Packument;
 }
+
+export type PackageState = 'clean' | 'warn' | 'block';
+
+export interface ReportPackage {
+  name: string;
+  version: string;
+  integrity: string;
+  /** ISO timestamp from packument.time[version], null if not available */
+  publishedAt: string | null;
+  /** 'allow' mapped to 'clean' */
+  state: PackageState;
+  score: number;
+  recommendation: string;
+  findings: Finding[];
+}
+
+export interface CicurityReport {
+  projectName: string;
+  cicurityVersion: string;
+  timestamp: string;
+  summary: { total: number; blocked: number; warned: number; clean: number };
+  /** All analyzed packages regardless of state */
+  packages: ReportPackage[];
+}

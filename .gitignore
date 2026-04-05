@@ -142,3 +142,6 @@ CLAUDE.md
 .claude
 .idea
 
+# macOS
+.DS_Store
+
