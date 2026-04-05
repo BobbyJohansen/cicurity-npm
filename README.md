@@ -124,8 +124,31 @@ cicurity runs a multi-layer analysis pipeline on every package before it install
 |---|---|
 | New maintainer within 30 days of publish | Account takeover precedes most supply chain attacks |
 | Typosquatting (edit distance ≤ 2 from top 500 packages) | `1odash`, `expres`, `reacts` |
+| Scope hijacking (unscoped package matching `@scope/pkg`) | `babel-core` intercepting `@babel/core` installs |
 | Prebuilt binaries (`.node`, `.so`, `.dll`, `.exe`) | Can't be statically analyzed |
 | New package, very low downloads | Unknown packages with no community vetting |
+| Burst publish after dormancy (3+ versions in 24h, gap >30d) | Account takeover burst-pushing before detection |
+| Major version jump (e.g. 1.x to 9.x) | Version bump squatting to win semver range resolution |
+| `repository` field removed vs previous version | Metadata scrubbing after account takeover |
+| New lifecycle hook added vs previous version | Postinstall injected by attacker post-compromise |
+| Package name matches internal naming patterns | Dependency confusion attack targeting private registries |
+
+### New in this release
+
+| Signal | Level | Rationale |
+|---|---|---|
+| `fs.readFile/writeFile` in install script | high | Credential file reading or backdoor writing |
+| Credential path accessed (`.ssh`, `.aws/credentials`, `.npmrc`) | critical | SSH key / cloud credential theft |
+| Shell profile written (`.bashrc`, `.zshrc`, `.profile`) | critical | Persistence - injected into every shell start |
+| CI env var check guarding payload (`process.env.CI`) | high | Targeted CI attack, evades local testing |
+| `curl`/`wget` piped to `bash`/`node` via child_process | critical | Second-stage payload download bypassing tarball analysis |
+| PowerShell `-EncodedCommand` in exec call | critical | Windows download-and-execute via encoded payload |
+| Burst publish after long gap | high | Account takeover burst-push signal |
+| Resurrection after 6+ months dormancy | medium | Dormant package re-registered or account compromised |
+| `scripts.postinstall` added where none existed before | critical | New lifecycle hook injection |
+| `repository` field removed vs previous version | high | Metadata scrubbing post-compromise |
+| Author changed between versions | high | Account takeover signal |
+| Dependency confusion: internal-looking name on public registry | high | Targeting private registry package names |
 
 ---
 

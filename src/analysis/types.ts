@@ -12,11 +12,17 @@ export type FindingCategory =
   | 'install-script-env-access'
   | 'install-script-fs-escape'
   | 'install-script-child-process'
+  | 'install-script-fs-access'
+  | 'install-script-conditional-exec'
+  | 'install-script-remote-exec'
   | 'typosquatting'
   | 'maintainer-change'
   | 'binary-files'
   | 'package-age'
-  | 'integrity-mismatch';
+  | 'integrity-mismatch'
+  | 'dependency-confusion'
+  | 'publish-anomaly'
+  | 'metadata-integrity';
 
 export interface Finding {
   category: FindingCategory;

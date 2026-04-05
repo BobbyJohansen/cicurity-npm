@@ -13,6 +13,12 @@ import { analyzeTyposquat } from './analyzers/typosquat.js';
 import { analyzeMaintainerChanges } from './analyzers/maintainer.js';
 import { analyzePackageAge } from './analyzers/package-age.js';
 import { analyzeChildProcess } from './analyzers/child-process.js';
+import { analyzeFilesystem } from './analyzers/filesystem.js';
+import { analyzeConditionalExec } from './analyzers/conditional-exec.js';
+import { analyzeRemoteExec } from './analyzers/remote-exec.js';
+import { analyzePublishAnomaly } from './analyzers/publish-anomaly.js';
+import { analyzeMetadataIntegrity } from './analyzers/metadata-integrity.js';
+import { analyzeDepConfusion } from './analyzers/dep-confusion.js';
 import { scoreFindings, applyEnvironmentOverride } from './scoring.js';
 import type { AnalysisContext, Finding, PackageAnalysisResult } from './types.js';
 import type { ResolvedPackage } from '../registry/types.js';
@@ -70,6 +76,12 @@ export async function analyzePackage(
       maintainerFindings,
       ageFindings,
       childProcessFindings,
+      filesystemFindings,
+      conditionalExecFindings,
+      remoteExecFindings,
+      publishAnomalyFindings,
+      metadataIntegrityFindings,
+      depConfusionFindings,
     ] = await Promise.all([
       Promise.resolve(analyzeNetworkCalls(context)),
       Promise.resolve(analyzeObfuscation(context)),
@@ -79,6 +91,12 @@ export async function analyzePackage(
       Promise.resolve(analyzeMaintainerChanges(context)),
       analyzePackageAge(context),
       Promise.resolve(analyzeChildProcess(context)),
+      Promise.resolve(analyzeFilesystem(context)),
+      Promise.resolve(analyzeConditionalExec(context)),
+      Promise.resolve(analyzeRemoteExec(context)),
+      Promise.resolve(analyzePublishAnomaly(context)),
+      Promise.resolve(analyzeMetadataIntegrity(context)),
+      Promise.resolve(analyzeDepConfusion(context)),
     ]);
 
     const allFindings: Finding[] = [
@@ -90,6 +108,12 @@ export async function analyzePackage(
       ...maintainerFindings,
       ...ageFindings,
       ...childProcessFindings,
+      ...filesystemFindings,
+      ...conditionalExecFindings,
+      ...remoteExecFindings,
+      ...publishAnomalyFindings,
+      ...metadataIntegrityFindings,
+      ...depConfusionFindings,
     ];
 
     // Step 5: Score and apply environment override

@@ -1,7 +1,7 @@
 import type { Packument } from '../registry/types.js';
 export type RiskLevel = 'critical' | 'high' | 'medium' | 'low' | 'info';
 export type Action = 'block' | 'warn' | 'allow';
-export type FindingCategory = 'install-script-network' | 'install-script-eval' | 'install-script-obfuscation' | 'install-script-env-access' | 'install-script-fs-escape' | 'install-script-child-process' | 'typosquatting' | 'maintainer-change' | 'binary-files' | 'package-age' | 'integrity-mismatch';
+export type FindingCategory = 'install-script-network' | 'install-script-eval' | 'install-script-obfuscation' | 'install-script-env-access' | 'install-script-fs-escape' | 'install-script-child-process' | 'install-script-fs-access' | 'install-script-conditional-exec' | 'install-script-remote-exec' | 'typosquatting' | 'maintainer-change' | 'binary-files' | 'package-age' | 'integrity-mismatch' | 'dependency-confusion' | 'publish-anomaly' | 'metadata-integrity';
 export interface Finding {
     category: FindingCategory;
     level: RiskLevel;
