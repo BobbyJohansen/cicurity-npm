@@ -7,6 +7,7 @@ const INSTALL_SUBCOMMANDS = {
     npx: new Set(['exec', 'x', '']), // npx <pkg> has no explicit subcommand
 };
 const INSTALL_FLAGS = new Set([
+    // shared npm / pnpm flags
     '-D', '--save-dev',
     '-O', '--save-optional',
     '-g', '--global',
@@ -18,6 +19,14 @@ const INSTALL_FLAGS = new Set([
     '--prefer-offline',
     '--frozen-lockfile',
     '--no-lockfile',
+    // pnpm-specific flags
+    '-P', '--save-peer',
+    '-w', '--workspace-root',
+    '-r', '--recursive',
+    '--filter',
+    '--no-optional',
+    '--shamefully-hoist',
+    '--strict-peer-dependencies',
 ]);
 /**
  * Parses process.argv.slice(2) (the args after `node bin/cicurity.js`).
@@ -56,7 +65,7 @@ export function parseArgs(argv) {
     const afterSubcommand = tool === 'npx' ? rest : rest.slice(1);
     const packages = [];
     const passthroughArgs = tool === 'npx' ? [] : [subcommand];
-    const flags = { json: false, force: false, saveDev: false, saveOptional: false, global: false };
+    const flags = { json: false, force: false, saveDev: false, saveOptional: false, savePeer: false, global: false };
     let project;
     let doubleDashSeen = false;
     let i = 0;
@@ -90,8 +99,19 @@ export function parseArgs(argv) {
                 flags.saveDev = true;
             if (arg === '-O' || arg === '--save-optional')
                 flags.saveOptional = true;
+            if (arg === '-P' || arg === '--save-peer')
+                flags.savePeer = true;
             if (arg === '-g' || arg === '--global')
                 flags.global = true;
+            // --filter takes a value argument (pnpm workspace selector)
+            if (arg === '--filter') {
+                const val = afterSubcommand[i + 1];
+                if (val !== undefined && !val.startsWith('-')) {
+                    passthroughArgs.push(val);
+                    i += 2;
+                    continue;
+                }
+            }
             i++;
             continue;
         }

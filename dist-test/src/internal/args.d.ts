@@ -11,6 +11,8 @@ export interface ParsedInstall {
         force: boolean;
         saveDev: boolean;
         saveOptional: boolean;
+        /** pnpm: -P / --save-peer */
+        savePeer: boolean;
         global: boolean;
     };
     /** Optional project name for the analyzer report (--project / -p) */
