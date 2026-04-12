@@ -15,6 +15,8 @@ export interface ParsedInstall {
     force: boolean;
     saveDev: boolean;
     saveOptional: boolean;
+    /** pnpm: -P / --save-peer */
+    savePeer: boolean;
     global: boolean;
   };
   /** Optional project name for the analyzer report (--project / -p) */
@@ -37,6 +39,7 @@ const INSTALL_SUBCOMMANDS: Record<SupportedTool, Set<string>> = {
 };
 
 const INSTALL_FLAGS = new Set([
+  // shared npm / pnpm flags
   '-D', '--save-dev',
   '-O', '--save-optional',
   '-g', '--global',
@@ -48,6 +51,14 @@ const INSTALL_FLAGS = new Set([
   '--prefer-offline',
   '--frozen-lockfile',
   '--no-lockfile',
+  // pnpm-specific flags
+  '-P', '--save-peer',
+  '-w', '--workspace-root',
+  '-r', '--recursive',
+  '--filter',
+  '--no-optional',
+  '--shamefully-hoist',
+  '--strict-peer-dependencies',
 ]);
 
 /**
@@ -91,7 +102,7 @@ export function parseArgs(argv: string[]): ParsedCommand {
 
   const packages: string[] = [];
   const passthroughArgs: string[] = tool === 'npx' ? [] : [subcommand];
-  const flags = { json: false, force: false, saveDev: false, saveOptional: false, global: false };
+  const flags = { json: false, force: false, saveDev: false, saveOptional: false, savePeer: false, global: false };
   let project: string | undefined;
 
   let doubleDashSeen = false;
@@ -121,7 +132,17 @@ export function parseArgs(argv: string[]): ParsedCommand {
       if (arg === '--force' || arg === '-f') flags.force = true;
       if (arg === '-D' || arg === '--save-dev') flags.saveDev = true;
       if (arg === '-O' || arg === '--save-optional') flags.saveOptional = true;
+      if (arg === '-P' || arg === '--save-peer') flags.savePeer = true;
       if (arg === '-g' || arg === '--global') flags.global = true;
+      // --filter takes a value argument (pnpm workspace selector)
+      if (arg === '--filter') {
+        const val = afterSubcommand[i + 1];
+        if (val !== undefined && !val.startsWith('-')) {
+          passthroughArgs.push(val);
+          i += 2;
+          continue;
+        }
+      }
       i++;
       continue;
     }

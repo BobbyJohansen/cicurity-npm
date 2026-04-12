@@ -77,6 +77,8 @@ Your `node_modules` is untouched. Your secrets are safe. The attack never ran.
 
 ```bash
 npm install -g cicurity
+# or
+pnpm add -g cicurity
 ```
 
 That's it. No config required.
@@ -214,11 +216,20 @@ Config is searched upward from `cwd` to `~/.cicurity/config.json`.
 
 ### GitHub Actions
 
+With npm:
 ```yaml
 - name: Install dependencies (secure)
   run: |
     npm install -g cicurity
     cicurity npm ci
+```
+
+With pnpm:
+```yaml
+- name: Install dependencies (secure)
+  run: |
+    npm install -g cicurity
+    cicurity pnpm install --frozen-lockfile
 ```
 
 On a blocked package, the step fails with exit code 1 and prints a detailed report to stderr.
@@ -340,7 +351,7 @@ cicurity has one hard rule: **`"dependencies"` stays empty**. If your change req
 ```bash
 git clone https://github.com/bobbyjohansen/cicurity-npm
 cd cicurity-npm
-npm install          # installs typescript only
+npm install          # or: pnpm install
 npm run build        # tsc + copy vendor → dist/
 npm test             # compile + node:test
 npm run lint:no-deps # verify zero runtime dependencies
